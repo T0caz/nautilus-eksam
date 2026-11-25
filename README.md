@@ -87,7 +87,7 @@ node scripts/build.mjs
 
 Windows PowerShellis saab testida ka käsuga `node --test test/app.test.mjs`. Testid kasutavad mälus olevat andmebaasi ja fiktiivseid andmeid. Staatiline ehitus läheb `dist/` kausta. `dist`, `node_modules`, `vendor`, `.env` ja `data/*` on `.gitignore` failis. ZIP sisaldab ainult lähtekoodi, assette ja dokumentatsiooni.
 
-Kaasas on GitHub Actionsi CI näidis. Docker: genereeri `.env`, siis `docker compose up --build`; admin loo `docker compose exec nautilus node scripts/create-admin.mjs` abil. Compose on kohalik HTTP-demo; tootmises määra `NODE_ENV=production`, tegelik HTTPS-i `APP_ORIGIN`, kaitstud saladus ja püsiv andmeketas. Dockerit ega CI-t ei käivitatud selles seansis.
+Kaasas on GitHub Actionsi CI näidis. Docker: genereeri `.env`, siis `docker compose up --build`; admin loo `docker compose exec nautilus node scripts/create-admin.mjs` abil. Compose on kohalik HTTP-demo; tootmises määra `NODE_ENV=production`, tegelik HTTPS-i `APP_ORIGIN`, kaitstud saladus ja püsiv andmeketas. Dockerit selles seansis ei käivitatud. GitHub Actionsis läbisid 21 testi, ehitus, mõlemad Lighthouse’i auditid ja GitHub Pagesi deploy.
 
 ## Git ja avaldamine
 
