@@ -1,0 +1,10 @@
+import {mkdir,cp,writeFile,rm} from 'node:fs/promises';
+import {resolve} from 'node:path';
+import {root} from '../src/db.mjs';
+import {expeditions} from '../src/seed.mjs';
+import * as v from '../src/views.mjs';
+const out=resolve(root,'dist');await rm(out,{recursive:true,force:true});await mkdir(out,{recursive:true});await cp(resolve(root,'public'),out,{recursive:true});
+const pages={'index.html':v.home(expeditions),'ekspeditsioonid.html':v.listing(expeditions),'kontakt.html':v.contact(),'registreerimine.html':v.register(expeditions),'toeta.html':v.register(expeditions,{kind:'donation'}),'privaatsus.html':v.info('privacy'),'materjalid.html':v.info('materials'),'404.html':v.errorPage(404,'Lehte ei leitud.')};
+for(const e of expeditions)pages[v.detailUrl(e)]=v.detail(e);
+for(const [file,html]of Object.entries(pages))await writeFile(resolve(out,file),html);
+console.log(`Loodi ${Object.keys(pages).length} HTML-faili kausta dist/.`);
