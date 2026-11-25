@@ -6,5 +6,7 @@ dist/
 !.env.example
 data/*
 !data/.gitkeep
+coverage/
 *.log
 .DS_Store
+.openai/
