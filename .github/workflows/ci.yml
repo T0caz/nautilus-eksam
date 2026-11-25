@@ -12,6 +12,21 @@ jobs:
           node-version: 24
       - run: node --test test/*.test.mjs
       - run: node scripts/build.mjs
+      - name: Mõõda Lighthouse mobiil ja desktop
+        run: |
+          mkdir -p reports
+          python3 -m http.server 4173 --bind 127.0.0.1 --directory dist > /tmp/nautilus-preview.log 2>&1 &
+          PREVIEW_PID=$!
+          trap 'kill "$PREVIEW_PID"' EXIT
+          curl --retry 10 --retry-delay 1 --retry-connrefused --fail --silent http://127.0.0.1:4173/ > /dev/null
+          npx --yes lighthouse@13.6.0 http://127.0.0.1:4173/ --chrome-flags="--headless --no-sandbox" --output=html --output=json --output-path=reports/lighthouse-mobile --only-categories=performance,accessibility,best-practices,seo --quiet
+          npx --yes lighthouse@13.6.0 http://127.0.0.1:4173/ --preset=desktop --chrome-flags="--headless --no-sandbox" --output=html --output=json --output-path=reports/lighthouse-desktop --only-categories=performance,accessibility,best-practices,seo --quiet
+          node scripts/check-lighthouse.mjs reports/lighthouse-mobile.report.json reports/lighthouse-desktop.report.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-reports
+          path: reports
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         with:

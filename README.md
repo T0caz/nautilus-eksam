@@ -97,7 +97,7 @@ Arhiivis on `nautilus.git.bundle`, mis sisaldab päris kohalikke commit’e. Taa
 git clone nautilus.git.bundle nautilus
 ```
 
-Avalik repositoorium ja backend pole veel avaldatud. `gitlink.txt` märgib selle ausalt. Lisa enda loodud Git-repositooriumi remote, lükka commit’id üles ning asenda lingifail päris URL-iga. Staatilise GitHub Pagesi juhend on moodul3 README-s.
+Avalik koodirepositoorium: https://github.com/T0caz/nautilus-eksam. Backend töötab kohalikult; avalik GitHub Pages näitab staatilist versiooni. Actionsi töövoog käivitab testid, ehituse, Lighthouse’i mobiili- ja töölauaauditi ning avaldab staatilise lehe. Raportid salvestatakse töövoo artefaktiks.
 
 ## Allikad
 

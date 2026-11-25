@@ -1,5 +1,4 @@
-Avalikku Git-repositooriumi ei ole selles seansis loodud.
-Kaasasolev nautilus.git.bundle sisaldab päris kohalikku Git-ajalugu.
-Taasta: git clone nautilus.git.bundle nautilus
-Paigalda ja ühenda GitHubi plugin või lisa enda remote, push'i commit'id ning asenda see fail kontrollitud repositooriumi URL-iga.
-See tekst ei asenda ülesandes nõutud avalikku Git-linki.
+https://github.com/T0caz/nautilus-eksam
+
+Avalik repositoorium on loodud ja rakenduse kood commit'idena üles laaditud.
+GitHub Pagesi avaldamine toimub Actionsi töövooga.
