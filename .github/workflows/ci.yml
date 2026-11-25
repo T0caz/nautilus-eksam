@@ -1,5 +1,9 @@
 name: Kontrolli ja avalda Nautilus
-on: [push, pull_request]
+on:
+  push:
+    paths-ignore: ['**/*.md', 'gitlink.txt', 'documentation/**']
+  pull_request:
+    paths-ignore: ['**/*.md', 'gitlink.txt', 'documentation/**']
 permissions:
   contents: read
 jobs:
