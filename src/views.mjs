@@ -4,7 +4,7 @@ const date=d=>new Intl.DateTimeFormat('et-EE',{day:'numeric',month:'long',year:'
 const imageSizes={hero:[1672,941],wreck:[1536,1024],submarine:[1536,1024],station:[1536,1024],jellyfish:[1254,1254],texture:[1672,941]};
 export function picture(id,alt,{eager=false,cls='',sizes='(max-width: 599px) calc(100vw - 48px), (max-width: 999px) calc((100vw - 104px) / 2), (min-width: 1920px) 517px, calc((100vw - 17vw - 48px) / 3)'}={}){
   const [w,ht]=imageSizes[id]||imageSizes.wreck;
-  return `<img class="${h(cls)}" src="assets/images/${h(id)}-800.webp" srcset="assets/images/${h(id)}-400.webp 400w, assets/images/${h(id)}-800.webp 800w, assets/images/${h(id)}-1600.webp 1600w" sizes="${h(sizes)}" width="${w}" height="${ht}" alt="${h(alt)}" ${eager?'fetchpriority="high" loading="eager"':'loading="lazy"'} decoding="async">`;
+  return `<img class="${h(cls)}" src="assets/images/${h(id)}-800.webp" srcset="assets/images/${h(id)}-400.webp 400w, assets/images/${h(id)}-800.webp 800w, assets/images/${h(id)}-1600.webp ${Math.min(1600,w)}w" sizes="${h(sizes)}" width="${w}" height="${ht}" alt="${h(alt)}" ${eager?'fetchpriority="high" loading="eager"':'loading="lazy"'} decoding="async">`;
 }
 export const detailUrl=e=>'ekspeditsioon-'+e.slug+'.html';
 const mark=`<svg class="brand-mark" width="32" height="38" viewBox="0 0 32 38" aria-hidden="true"><path d="M4 33V5l24 28V5" fill="none" stroke="currentColor" stroke-width="3"/></svg>`;
@@ -38,7 +38,7 @@ export function detail(e,opts={}){
  return layout(e.name,body,{active:'list',description:e.description.slice(0,155),...opts});
 }
 function field(label,name,{type='text',value='',required=true,max=100,min,help='',error='',textarea=false,autocomplete='',options}={}){
- const extra=`${required?' required':''}${max?` ${type==='number'?'max':'maxlength'}="${max}"`:''}${min!==undefined?` min="${min}"`:''}${autocomplete?` autocomplete="${autocomplete}"`:''}${error?' aria-invalid="true"':''}${help||error?` aria-describedby="${name}-help"`:''}`;
+ const extra=`${required?' required':''}${max&&!options&&type!=='date'?` ${type==='number'?'max':'maxlength'}="${max}"`:''}${min!==undefined?` ${type==='number'?'min':'minlength'}="${min}"`:''}${autocomplete?` autocomplete="${autocomplete}"`:''}${error?' aria-invalid="true"':''}${help||error?` aria-describedby="${name}-help"`:''}`;
  const input=options?`<select id="${name}" name="${name}"${extra}>${options.map(o=>`<option value="${h(o.value)}"${selected(value,o.value)}>${h(o.label)}</option>`).join('')}</select>`:textarea?`<textarea id="${name}" name="${name}" rows="6"${extra}>${h(value)}</textarea>`:`<input id="${name}" name="${name}" type="${type}" value="${h(value)}"${extra}>`;
  return `<div class="form-field"><label for="${name}">${h(label)}${required?' <span aria-hidden="true">*</span>':''}</label>${input}${help||error?`<p id="${name}-help" class="field-help ${error?'field-error':''}">${h(error||help)}</p>`:''}</div>`;
 }

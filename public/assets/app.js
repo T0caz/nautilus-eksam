@@ -22,7 +22,7 @@ if(filters){
   document.querySelector('#result-count').textContent=`${shown} ${shown===1?'ekspeditsioon':'ekspeditsiooni'}`;
   document.querySelector('#empty-results').hidden=shown!==0;
  };
- filters.addEventListener('submit',e=>{if(document.body.dataset.backend==='true')return;e.preventDefault();apply();const q=new URLSearchParams(new FormData(filters));for(const [k,v]of [...q])if(!v)q.delete(k);history.replaceState(null,'',location.pathname+(q.size?'?'+q.toString():''));});
+ filters.addEventListener('submit',e=>{if(document.body.dataset.backend==='true')return;e.preventDefault();apply();const q=new URLSearchParams(new FormData(filters));for(const [k,v]of [...q])if(!v)q.delete(k);if(location.protocol!=='file:')history.replaceState(null,'',location.pathname+(q.size?'?'+q.toString():''));});
  if(document.body.dataset.backend!=='true')filters.addEventListener('change',apply);
  let searchTimer;filters.querySelector('[type=search]').addEventListener('input',()=>{if(document.body.dataset.backend==='true')return;clearTimeout(searchTimer);searchTimer=setTimeout(apply,120);});
  if(document.body.dataset.backend!=='true'){const q=new URLSearchParams(location.search);for(const [name,value]of q){const el=filters.elements.namedItem(name);if(el)el.value=value;}apply();}

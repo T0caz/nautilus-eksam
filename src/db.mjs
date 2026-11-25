@@ -12,10 +12,11 @@ export function openDatabase(path = process.env.DATABASE_PATH || resolve(root,'d
   return db;
 }
 export function seed(db) {
-  if(db.prepare('SELECT COUNT(*) AS n FROM expeditions').get().n) return;
+  if(db.prepare("SELECT value FROM settings WHERE key='seeded'").get())return;
+  if(db.prepare('SELECT COUNT(*) AS n FROM expeditions').get().n){db.prepare("INSERT INTO settings(key,value) VALUES('seeded','1')").run();return;}
   const insert=db.prepare('INSERT INTO expeditions (id,slug,name,category,description,location,region,depth,duration,price_cents,date,capacity,images) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)');
   db.exec('BEGIN');
-  try { for(const e of expeditions) insert.run(e.id,e.slug,e.name,e.category,e.description,e.location,e.region,e.depth,e.duration,e.price_cents,e.date,e.capacity,JSON.stringify(e.images)); db.exec('COMMIT'); }
+  try { for(const e of expeditions) insert.run(e.id,e.slug,e.name,e.category,e.description,e.location,e.region,e.depth,e.duration,e.price_cents,e.date,e.capacity,JSON.stringify(e.images)); db.prepare("INSERT INTO settings(key,value) VALUES('seeded','1')").run(); db.exec('COMMIT'); }
   catch(e){db.exec('ROLLBACK');throw e;}
 }
 export const hydrate = e => e ? {...e,images:JSON.parse(e.images)} : null;
